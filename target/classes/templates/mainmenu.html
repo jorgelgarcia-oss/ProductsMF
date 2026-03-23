@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="layout :: content">
+<head>
+  <title>Main Menu</title>
+</head>
+<body>
+<div class="jumbotron">
+  <h1 class="display-4">Welcome to PRODUCTS Application</h1>
+  <p class="lead">Use the navigation menu to manage products.</p>
+  <hr class="my-4" />
+  <a class="btn btn-primary btn-lg" href="/product" th:href="@{/product}" role="button">Go to Product Management</a>
+</div>
+</body>
+</html>
