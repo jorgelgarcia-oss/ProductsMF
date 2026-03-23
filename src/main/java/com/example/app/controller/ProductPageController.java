@@ -2,6 +2,7 @@ package com.example.app.controller;
 
 import com.example.app.dto.ProductDto;
 import com.example.app.service.ProductService;
+import com.example.app.service.ProductService.Mode;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
