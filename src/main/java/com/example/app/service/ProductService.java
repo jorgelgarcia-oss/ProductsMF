@@ -1,16 +1,47 @@
 package com.example.app.service;
 
+import com.example.app.dto.ProductDto;
 import java.util.List;
-import com.example.app.model.Product;
-import org.springframework.stereotype.Service;
 
-@Service
 public class ProductService {
 
-    public List<Product> getAllProducts() {
-        // Implementation to return all products
-        return null; // placeholder
+    public enum Mode {
+        ADD, EDIT, DELETE, NONE
     }
 
-    // Removed exit() method calls from controller, so no exit() method here
+    private Mode currentMode = Mode.NONE;
+
+    public void enterAddMode() {
+        currentMode = Mode.ADD;
+    }
+
+    public void enterEditMode() {
+        currentMode = Mode.EDIT;
+    }
+
+    public void enterDeleteMode() {
+        currentMode = Mode.DELETE;
+    }
+
+    public void exitMode() {
+        currentMode = Mode.NONE;
+    }
+
+    public Mode getCurrentMode() {
+        return currentMode;
+    }
+
+    public List<ProductDto> listAll() {
+        // stub method
+        return null;
+    }
+
+    public ProductDto findById(Long id) {
+        // stub method
+        return null;
+    }
+
+    public void save(ProductDto productDto) {
+        // stub method
+    }
 }
