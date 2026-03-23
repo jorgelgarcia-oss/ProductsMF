@@ -1,17 +1,16 @@
 package com.example.app.entity;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import java.math.BigDecimal;
+import javax.persistence.Column;
 
 @Entity
 @Table(name = "MILK_PRODUCTS")
 public class Product {
 
   @Id
-  @Column(name = "ID", nullable = false)
+  @Column(name = "ID")
   private Long id;
 
   @Column(name = "NAME", nullable = false)
@@ -21,7 +20,7 @@ public class Product {
   private String description;
 
   @Column(name = "PRICE", nullable = false)
-  private BigDecimal price;
+  private Double price;
 
   public Product() {
   }
@@ -51,11 +50,12 @@ public class Product {
     this.description = description;
   }
 
-  public BigDecimal getPrice() {
+
+  public Double getPrice() {
     return price;
   }
 
-  public void setPrice(BigDecimal price) {
+  public void setPrice(Double price) {
     this.price = price;
   }
 }

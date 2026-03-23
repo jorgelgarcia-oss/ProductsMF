@@ -3,7 +3,6 @@ package com.example.app.dto;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.NotBlank;
-import java.math.BigDecimal;
 
 public class ProductDto {
 
@@ -18,7 +17,7 @@ public class ProductDto {
 
   @NotNull(message = "Price must not be null")
   @Positive(message = "Price must be positive")
-  private BigDecimal price;
+  private Double price;
 
   public ProductDto() {
   }
@@ -48,11 +47,12 @@ public class ProductDto {
     this.description = description;
   }
 
-  public BigDecimal getPrice() {
+
+  public Double getPrice() {
     return price;
   }
 
-  public void setPrice(BigDecimal price) {
+  public void setPrice(Double price) {
     this.price = price;
   }
 }

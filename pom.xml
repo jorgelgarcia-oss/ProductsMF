@@ -67,9 +67,7 @@
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
-        <configuration>
-          <mainClass>com.example.app.Application</mainClass>
-        </configuration>
+        <version>2.7.18</version>
       </plugin>
     </plugins>
   </build>

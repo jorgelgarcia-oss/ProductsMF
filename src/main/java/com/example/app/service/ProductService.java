@@ -8,44 +8,73 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 @Transactional
 public class ProductService {
 
-  private final ProductRepository productRepository;
-
   public enum Mode {
-    IDLE,
-    ADD,
-    EDIT,
-    DELETE
+    Idle,
+    Add,
+    Edit,
+    Delete
   }
 
-  private Mode currentMode = Mode.IDLE;
+  private final ProductRepository productRepository;
+
+  private Mode currentMode = Mode.Idle;
 
   public ProductService(ProductRepository productRepository) {
     this.productRepository = productRepository;
   }
 
-  public List<ProductDto> findAll() {
-    return productRepository.findAll().stream()
-        .map(this::toDto)
-        .collect(Collectors.toList());
+  public Mode getCurrentMode() {
+    return currentMode;
+  }
+
+  public void enterAddMode() {
+    currentMode = Mode.Add;
+  }
+
+  public void enterEditMode() {
+    currentMode = Mode.Edit;
+  }
+
+  public void enterDeleteMode() {
+    currentMode = Mode.Delete;
+  }
+
+  public void exitMode() {
+    currentMode = Mode.Idle;
+  }
+
+  public List<ProductDto> listAll() {
+    List<Product> products = productRepository.findAll();
+    return products.stream().map(this::toDto).collect(Collectors.toList());
   }
 
   public ProductDto findById(Long id) {
-    Product product = productRepository.findById(id)
-        .orElseThrow(() -> new EntityNotFoundException("Product not found with ID: " + id));
-    return toDto(product);
+    Optional<Product> product = productRepository.findById(id);
+    if (!product.isPresent()) {
+      throw new EntityNotFoundException("Product not found with ID: " + id);
+    }
+    return toDto(product.get());
   }
 
   public ProductDto save(ProductDto dto) {
-    validateDto(dto);
+    if (currentMode == Mode.Idle) {
+      throw new IllegalStateException("Cannot save product when not in Add, Edit or Delete mode");
+    }
+    if (currentMode == Mode.Delete) {
+      delete(dto.getId());
+      exitMode();
+      return null;
+    }
     Product product = toEntity(dto);
     productRepository.save(product);
-    currentMode = Mode.IDLE;
+    exitMode();
     return toDto(product);
   }
 
@@ -54,45 +83,6 @@ public class ProductService {
       throw new EntityNotFoundException("Product not found with ID: " + id);
     }
     productRepository.deleteById(id);
-    currentMode = Mode.IDLE;
-  }
-
-  public Mode getCurrentMode() {
-    return currentMode;
-  }
-
-  public void enterAddMode() {
-    currentMode = Mode.ADD;
-  }
-
-  public void enterEditMode() {
-    currentMode = Mode.EDIT;
-  }
-
-  public void enterDeleteMode() {
-    currentMode = Mode.DELETE;
-  }
-
-  public void exit() {
-    currentMode = Mode.IDLE;
-  }
-
-  private void validateDto(ProductDto dto) {
-    if (dto.getId() == null) {
-      throw new IllegalArgumentException("ID must not be null");
-    }
-    if (dto.getName() == null || dto.getName().trim().isEmpty()) {
-      throw new IllegalArgumentException("Name must not be blank");
-    }
-    if (dto.getDescription() == null || dto.getDescription().trim().isEmpty()) {
-      throw new IllegalArgumentException("Description must not be blank");
-    }
-    if (dto.getPrice() == null) {
-      throw new IllegalArgumentException("Price must not be null");
-    }
-    if (dto.getPrice().doubleValue() <= 0) {
-      throw new IllegalArgumentException("Price must be positive");
-    }
   }
 
   private ProductDto toDto(Product product) {
