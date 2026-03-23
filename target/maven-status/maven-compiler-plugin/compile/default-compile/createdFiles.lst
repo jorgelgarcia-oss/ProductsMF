@@ -1,9 +1,0 @@
-com\example\app\entity\Product.class
-com\example\app\Application.class
-com\example\app\controller\MainMenuController.class
-com\example\app\controller\ProductRestController.class
-com\example\app\service\ProductService.class
-com\example\app\service\ProductService$Mode.class
-com\example\app\dto\ProductDto.class
-com\example\app\controller\ProductWebController.class
-com\example\app\repository\ProductRepository.class
