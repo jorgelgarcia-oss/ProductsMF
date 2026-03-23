@@ -1,7 +1,6 @@
 package com.example.app.controller;
 
 import com.example.app.dto.ProductDto;
-import com.example.app.entity.Product;
 import com.example.app.service.ProductService;
 import com.example.app.service.ProductService.Mode;
 import org.springframework.stereotype.Controller;
